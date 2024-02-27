@@ -6,7 +6,6 @@ use App\Models\Thought;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class ThoughtController extends Controller
 {
@@ -14,10 +13,10 @@ class ThoughtController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index(): Response
+    public function index()
     {
         return Inertia::render('Thoughts/Index', [ 
-            // 
+          'thoughts' => Thought::with('user:id,name')->latest()->get(),
         ]);
     }
 

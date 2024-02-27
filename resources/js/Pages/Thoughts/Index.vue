@@ -1,9 +1,12 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import Thought from '@/Components/Thought.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm, Head } from '@inertiajs/vue3';
  
+defineProps(['thoughts'])
+
 const form = useForm({
     message: '',
 });
@@ -22,6 +25,13 @@ const form = useForm({
             <InputError :message="form.errors.message" class="mt-2" />
             <PrimaryButton class="mt-4">Have a Thought</PrimaryButton>
         </form>
+        <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
+          <Thought
+            v-for="thought in thoughts"
+            :key="thought.id"
+            :thought="thought"
+          />
+        </div>
     </div>
 </AuthenticatedLayout>
 </template>
