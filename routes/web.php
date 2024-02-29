@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('thoughts', ThoughtController::class)
-    ->only(['index', 'store'])
+    ->only(['index', 'store', 'update'])
     ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
