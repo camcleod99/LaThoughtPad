@@ -45,7 +45,7 @@ class ThoughtPolicy
      */
     public function delete(User $user, Thought $thought): bool
     {
-        //
+        return $this->update($user, $thought);
     }
 
     /**
