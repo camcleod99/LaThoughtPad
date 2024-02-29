@@ -77,8 +77,12 @@ class ThoughtController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Thought $thought)
+    public function destroy(Thought $thought): RedirectResponse
     {
-        //
+      $this->authorize('delete', $thought);
+
+      $thought->delete();
+
+      return redirect(route('thoughts.index'));
     }
 }
