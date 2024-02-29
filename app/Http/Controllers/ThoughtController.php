@@ -61,7 +61,7 @@ class ThoughtController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Chirp $chirp): RedirectResponse
+    public function update(Request $request, Thought $thought): RedirectResponse
     {
       $this->authorize('update', $thought);
 
