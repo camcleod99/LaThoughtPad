@@ -14,6 +14,10 @@ class Thought extends Model
       'message',
     ];
 
+    protected $dispatchesEvents = [
+      'created' => \App\Events\ThoughtMade::class,
+    ];
+
     public function user(): BelongsTo
     {
       return $this->belongsTo(User::class);
