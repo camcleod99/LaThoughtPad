@@ -1,4 +1,5 @@
 <script setup>
+
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import InputError from '@/Components/InputError.vue';
@@ -7,18 +8,16 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
- 
+
 dayjs.extend(relativeTime);
- 
-const props = defineProps(['thought']);
- 
+const props = defineProps(['thought', 'page']);
 const form = useForm({
     message: props.thought.message,
 });
- 
+
 const editing = ref(false);
 </script>
- 
+
 <template>
   <div class="p-6 flex space-x-2">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 -scale-x-100" fill="none" viewBox="0 0 24 24"
@@ -27,13 +26,16 @@ const editing = ref(false);
         d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
     </svg>
     <div class="flex-1">
+
       <div class="flex justify-between items-center">
+
         <div>
           <span class="text-gray-800">{{ thought.user.name }}</span>
           <small class="ml-2 text-sm text-gray-600">{{ dayjs(thought.created_at).fromNow() }}</small>
           <small v-if="thought.created_at !== thought.updated_at" class="text-sm text-gray-600"> &middot;
             edited</small>
         </div>
+
         <Dropdown v-if="thought.user.id === $page.props.auth.user.id">
           <template #trigger>
             <button>
@@ -44,16 +46,27 @@ const editing = ref(false);
               </svg>
             </button>
           </template>
+
           <template #content>
             <button class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out" @click="editing = true">
               Edit
             </button>
-            <DropdownLink as="button" :href="route('thoughts.destroy', thought.id)" method="delete">
-              Delete
+            <DropdownLink v-if="page !== 'thoughts'" as="button" method="post" :href="route('thoughts.updateStatus', { id: thought.id, status: 'Posted', source: page })">
+              Move to Posts
+            </DropdownLink>
+            <DropdownLink v-if="page !== 'drafts'" as="button" method="post" :href="route('thoughts.updateStatus', { id: thought.id, status: 'Draft', source: page })">
+              Move to Drafts
+            </DropdownLink>
+            <DropdownLink v-if="page !== 'deleted'" as="button" method="post" :href="route('thoughts.updateStatus', { id: thought.id, status: 'Deleted', source: page })">
+              Move to The Bin
+            </DropdownLink>
+            <DropdownLink v-if="page ==='deleted'" as="button" method="delete" :href="route('thoughts.destroy', { id: thought.id })" class="bg-red-500 hover:bg-red-400 text-white">
+              Delete Permanently
             </DropdownLink>
           </template>
         </Dropdown>
       </div>
+
       <form v-if="editing"
         @submit.prevent="form.put(route('thoughts.update', thought.id), { onSuccess: () => editing = false })">
         <textarea v-model="form.message"
@@ -64,6 +77,7 @@ const editing = ref(false);
           <button class="mt-4" @click="editing = false; form.reset(); form.clearErrors()">Cancel</button>
         </div>
       </form>
+
       <p v-else class="mt-4 text-lg text-gray-900">{{ thought.message }}</p>
     </div>
   </div>

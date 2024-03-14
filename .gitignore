@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 *.code-workspace
 scratch.md
+.editorconfig
