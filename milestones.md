@@ -7,23 +7,23 @@
 ## Tags
 Each thought can have three, one word tags. The tags can be added via a model and removed by clicking on the tag.
 
-  - [ ] *Make Migration* - Add tags field to Thoughts table, Add Tags Table
-  - [ ] *View* - Display tags on the thought page
-  - [ ] *Logic* - Add logic to add and remove tags
+  - [x] *Make Migration* - Add tags field to Thoughts table, Add Tags Table
+  - [x] *View* - Display tags on the thought page
+  - [ ] *Logic* - Add tag creation logic
   - [ ] *View* - Add tag removal logic
   - [ ] *Test* - Test the tag functionality
 
 ## Drafts
-The draft page will list a page of thoughts 
+The draft page will list a page of thoughts
 
-  - [x] *Make Migration* - Add status field to Thought Migration 
+  - [x] *Make Migration* - Add status field to Thought Migration
   - [x] *View* - Displays Thoguhts with all three statuses
-  - [x] *Routes* - Add routes for Logic 
+  - [x] *Routes* - Add routes for Logic
   - [x] *Logic* - Add logic to move thoughts
     - [x] *Drafts* - Move to Posted and Deleted
     - [x] *Posted* - Move to Drafts and Deleted
     - [x] *Deleted* - Move to Posted, Drafts, and allow for Permanant Deletion
-  
+
 ## Other Improvements
 
 ### Version 1

@@ -4,8 +4,6 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TagButton from '@/Components/TagButton.vue';
-import TagList from '@/Components/TagList.vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useForm } from '@inertiajs/vue3';
@@ -15,6 +13,9 @@ dayjs.extend(relativeTime);
 const props = defineProps(['thought', 'page']);
 const form = useForm({
     message: props.thought.message,
+    tag_1: props.thought.tag_1,
+    tag_2: props.thought.tag_2,
+    tag_3: props.thought.tag_3,
 });
 
 const editing = ref(false);
@@ -71,22 +72,37 @@ const editing = ref(false);
 
       <form v-if="editing"
         @submit.prevent="form.put(route('thoughts.update', thought.id), { onSuccess: () => editing = false })">
+        <label for="message" class="mt-5">Message</label>
         <textarea v-model="form.message"
-          class="mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"></textarea>
+          class="mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+        </textarea>
+        <label for="tags" class="mt-5">Tags</label>
+        <div class="flex space-x-4">
+          <textarea v-model="form.tag_1" rows="1" @keydown.enter.prevent
+            class="mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm resize-none">
+          </textarea>
+          <textarea v-model="form.tag_2" rows="1" @keydown.enter.prevent
+            class="mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm resize-none">
+          </textarea>
+          <textarea v-model="form.tag_3" rows="1" @keydown.enter.prevent
+            class="mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm resize-none">
+          </textarea>
+        </div>
         <InputError :message="form.errors.message" class="mt-2" />
-        <div class="space-x-2">
-          <span id="LeftSide">
+        <div class="space-x-2 text-right">
             <PrimaryButton class="mt-4">Save</PrimaryButton>
             <button class="mt-4" @click="editing = false; form.reset(); form.clearErrors()">Cancel</button>
-          </span>
-          <span id="RightSide">
-            <TagList />
-            <TagButton class="mt-4">Add Tag</TagButton>
-          </span>
         </div>
       </form>
 
-      <p v-else class="mt-4 text-lg text-gray-900">{{ thought.message }}</p>
+      <div v-else >
+        <p class="mt-4 text-lg text-gray-900">{{ thought.message }}</p>
+        <div class="mt-3 space-x-2 text-right">
+          <span class="font-bold font-serif" v-if="thought.tag_1 !== null && thought.tag_1 !== ''">{{ thought.tag_1 }}</span>
+          <span class="font-bold font-serif" v-if="thought.tag_2 !== null && thought.tag_2 !== ''"> {{ thought.tag_2 }} </span>
+          <span class="font-bold font-serif" v-if="thought.tag_3 !== null && thought.tag_3 !== ''"> {{ thought.tag_3 }} </span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
