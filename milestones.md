@@ -2,18 +2,26 @@
 
 ## List of Updates
 - *11/3* - Updated to basic functionality
-- *11/3* - Added post status and logic to move between statuses
+- *23/3* - Added post status and logic to move between statuses
+- *25/3* - Added tags to thoughts
 
-## Tags
+## Function List and Steps
+
+### Notifications
+When a posting event occors (a user creates a thoguht, edits a thought, moves a thought or pemanetely deletes it) the
+system will pass a message telling the user the action has occored successfuly (or otherwise)
+  - [ ] Make Notifaction component
+  - [ ] Make Notification logic in the page (IE: When the controller returns a message, use the notification component
+  to display it)
+  - [ ] Test Notification logic
+
+### Tags (DONE: 25/3)
 Each thought can have three, one word tags. The tags can be added via a model and removed by clicking on the tag.
-
   - [x] *Make Migration* - Add tags field to Thoughts table, Add Tags Table
   - [x] *View* - Display tags on the thought page
-  - [ ] *Logic* - Add tag creation logic
-  - [ ] *View* - Add tag removal logic
-  - [ ] *Test* - Test the tag functionality
+  - [x] *Logic* - Add tag creation logic
 
-## Drafts
+### Drafts
 The draft page will list a page of thoughts
 
   - [x] *Make Migration* - Add status field to Thought Migration
@@ -24,11 +32,12 @@ The draft page will list a page of thoughts
     - [x] *Posted* - Move to Drafts and Deleted
     - [x] *Deleted* - Move to Posted, Drafts, and allow for Permanant Deletion
 
-## Other Improvements
+## Version Milestones
 
 ### Version 1
 - [x] *Post Drafts*: Allow users to save drafts of their posts.
-- [ ] *Tagging/Categories*: Allow users to categorize or tag their posts. This can help with organization and searchability.
+- [x] *Tagging/Categories*: Allow users to categorize or tag their posts. This can help with organization and searchability.
+- [ ] *Notifications* : Notify users when events occur (post published, deleted, etc.).
 - [ ] *Search Functionality*: Allow users to search their own posts using keywords or tags.
 
 ### Version 2
@@ -43,3 +52,6 @@ The draft page will list a page of thoughts
 ### Version 4
 - [ ] *Pagination*: Allow users to paginate their posts to avoid long scrolling.
 - [ ] *Live Load*: Allow users to see new posts without refreshing the page.
+
+### Version 5
+- [ ] *Stories* : Allow users to organize their posts into stories or collections.
