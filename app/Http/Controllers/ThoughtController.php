@@ -35,12 +35,6 @@ class ThoughtController extends Controller
         ]);
     }
 
-    /** Show the form for creating a new resource. **/
-    public function create()
-    {
-        //
-    }
-
     /** Store a newly created resource in storage. **/
     public function store(Request $request): RedirectResponse
     {
@@ -48,21 +42,18 @@ class ThoughtController extends Controller
         'message' => 'required|string|max:255',
       ]);
 
+//    ** Manage Tags **
+      $tags = $this->sortTags([$request->tag_1, $request->tag_2, $request->tag_3]);
+
+      foreach ($tags as $key => $tag) {
+          $validated['tag_' . ($key + 1)] = $tag;
+      }
+
+      // Push the thought to the database
       $request->user()->thoughts()->create($validated);
 
+      // That all done, redirect to the thoughts.index page
       return redirect(route('thoughts.index'));
-    }
-
-    /** Display the specified resource. **/
-    public function show(Thought $thought)
-    {
-        //
-    }
-
-    /** Show the form for editing the specified resource. **/
-    public function edit(Thought $thought)
-    {
-        //
     }
 
     /** Update the specified resource in storage. **/
@@ -73,6 +64,12 @@ class ThoughtController extends Controller
       $validated = $request->validate([
         'message' => 'required|string|max:255',
       ]);
+
+      $tags = $this->sortTags([$request->tag_1, $request->tag_2, $request->tag_3]);
+
+      foreach ($tags as $key => $tag) {
+          $validated['tag_' . ($key + 1)] = $tag;
+      }
 
       $thought->update($validated);
 
@@ -131,4 +128,47 @@ class ThoughtController extends Controller
 
       return redirect(route('thoughts.index'));
     }
+
+    /** DRY Methods **/
+
+    /** Tag Sorting */
+    private function sortTags($tags)
+    {
+        foreach ($tags as $key => $tag) {
+            $tag = preg_replace('/[^A-Za-z0-9]/', '', $tag);
+            if (empty($tag)) {
+                $tags[$key] = null;
+            } else {
+                $tags[$key] = $tag;
+            }
+        }
+
+        // Move tags that are not null to the front of the array and then sort the array
+        $tags = array_values(array_filter($tags));
+        sort($tags);
+
+        return $tags;
+    }
+
+
+    /** DEFAULT METHODS **/
+
+    /** Show the form for creating a new resource. **/
+    public function create()
+    {
+        //
+    }
+
+    /** Display the specified resource. **/
+    public function show(Thought $thought)
+    {
+        //
+    }
+
+    /** Show the form for editing the specified resource. **/
+    public function edit(Thought $thought)
+    {
+        //
+    }
+
 }

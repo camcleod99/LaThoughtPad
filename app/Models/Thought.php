@@ -12,6 +12,9 @@ class Thought extends Model
 
     protected $fillable = [
       'message',
+      'tag_1',
+      'tag_2',
+      'tag_3',
     ];
 
     protected $dispatchesEvents = [
