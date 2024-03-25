@@ -42,9 +42,8 @@ class ThoughtController extends Controller
         'message' => 'required|string|max:255',
       ]);
 
-//    ** Manage Tags **
+      //  Manage Tags **
       $tags = $this->sortTags([$request->tag_1, $request->tag_2, $request->tag_3]);
-
       foreach ($tags as $key => $tag) {
           $validated['tag_' . ($key + 1)] = $tag;
       }
@@ -73,86 +72,76 @@ class ThoughtController extends Controller
 
       $thought->update($validated);
 
-      return redirect(route('thoughts.index'));
+      return redirect(route('thoughts.index'))->with('message', 'Your thought has been created successfully. Please go to the drafts page to publish it.');
     }
 
     /** Update the status of the specified resource in storage. **/
     public function updateStatus(Request $request): RedirectResponse
     {
-//    Check the post exists, the source exists and the status is one of the allowed values
+      //  Check the post exists, the source exists and the status is one of the allowed values
       $validated = $request->validate([
         'id' => 'required|integer|exists:thoughts,id',
         'source' => 'required|string|in:thoughts,drafts,deleted',
         'status' => 'required|string|in:Posted,Draft,Deleted',
       ]);
 
-//    Load up the thought by finding it via eloquent. Then check the user can do the thing
+      //  Load up the thought by finding it via eloquent. Then check the user can do the thing
       $thought = Thought::find(request('id'));
       $this->authorize('update', $thought);
 
-//    If the status is deleted then set the deleted_at field to now, otherwise set it to null
+      //  If the status is deleted then set the deleted_at field to now, otherwise set it to null
       if (request('status') == 'Deleted') {
         $thought->deleted_at = now();
       } else {
         $thought->deleted_at = null;
       }
 
-//    Set the status value in the post to the value passed in via request and then save
+      //  Set the status value in the post to the value passed in via request and then save
       $thought->status = request('status');
       $thought->save();
 
-//    If the 'source' is thoughts then you need to set the redirect to thoughts.index,
-//    otherwise you can just use the source value as the redirect text
+      //  If the 'source' is thoughts then you need to set the redirect to thoughts.index,
+      //  otherwise you can just use the source value as the redirect text
       if(request('source') === 'thoughts'){
         $redirect = 'thoughts.index';
-//         return redirect(route('thoughts.index'));
       } else {
         $redirect = 'thoughts.'.request('source');
-//         $source = request('source');
-//         return redirect(route('thoughts.'.$source));
       }
 
-//    TODO: Add a message to send to the view to say the action has been completed successfully
-
-      return redirect(route($redirect));
+      //  TODO: Add a message to send to the view to say the action has been completed successfully
+      return redirect(route($redirect))->with('message', "Your thought's status has been changed to ".$status." successfully.");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    /** Remove the specified resource from storage. */
     public function destroy(Thought $thought): RedirectResponse
     {
       $this->authorize('delete', $thought);
-
       $thought->delete();
-
-      return redirect(route('thoughts.index'));
+      return redirect(route('thoughts.index'))->with('message', 'Your thought has been permanently deleted.');
     }
 
     /** DRY Methods **/
-
-    /** Tag Sorting */
+    /** Tag Sorting **/
     private function sortTags($tags)
     {
-        foreach ($tags as $key => $tag) {
-            $tag = preg_replace('/[^A-Za-z0-9]/', '', $tag);
-            if (empty($tag)) {
-                $tags[$key] = null;
-            } else {
-                $tags[$key] = $tag;
-            }
-        }
+      foreach ($tags as $key => $tag) {
+          $tag = preg_replace('/[^A-Za-z0-9]/', '', $tag);
+          if (empty($tag)) {
+            $tags[$key] = null;
+          } else {
+            $tags[$key] = $tag;
+          }
+      }
 
-        // Move tags that are not null to the front of the array and then sort the array
-        $tags = array_values(array_filter($tags));
-        sort($tags);
+      // Move tags that are not null to the front of the array and then sort the array
+      $tags = array_values(array_filter($tags));
+      sort($tags);
 
-        return $tags;
+      return $tags;
     }
 
 
     /** DEFAULT METHODS **/
-
     /** Show the form for creating a new resource. **/
     public function create()
     {
@@ -170,5 +159,4 @@ class ThoughtController extends Controller
     {
         //
     }
-
 }

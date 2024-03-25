@@ -8,9 +8,9 @@
 ## Function List and Steps
 
 ### Notifications
-When a posting event occors (a user creates a thoguht, edits a thought, moves a thought or pemanetely deletes it) the
-system will pass a message telling the user the action has occored successfuly (or otherwise)
-  - [ ] Make Notifaction component
+When a posting event occurs (a user creates a thought, edits a thought, moves a thought or permanently deletes it), the
+system will pass a message telling the user the action has occurred successfully (or otherwise)
+  - [ ] Make Notification component
   - [ ] Make Notification logic in the page (IE: When the controller returns a message, use the notification component
   to display it)
   - [ ] Test Notification logic
