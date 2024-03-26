@@ -19,6 +19,7 @@ const form = useForm({
 });
 
 const editing = ref(false);
+
 </script>
 
 <template>
@@ -71,7 +72,7 @@ const editing = ref(false);
       </div>
 
       <form v-if="editing"
-        @submit.prevent="form.put(route('thoughts.update', thought.id), { onSuccess: () => editing = false })">
+            @submit.prevent="form.put(route('thoughts.update', { thought: thought.id, page: page }), { message: form.message }); editing = false">
         <label for="message" class="mt-5">Message</label>
         <textarea v-model="form.message"
           class="mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">

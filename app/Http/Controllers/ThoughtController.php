@@ -13,7 +13,8 @@ class ThoughtController extends Controller
     {
         return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Posted')->latest()->get(),
-          'page' => 'thoughts'
+          'page' => 'thoughts',
+          'postMessage' => session('message')
         ]);
     }
 
@@ -22,7 +23,8 @@ class ThoughtController extends Controller
     {
       return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Draft')->latest()->get(),
-          'page' => 'drafts'
+          'page' => 'drafts',
+          'postMessage' => session('message')
         ]);
     }
 
@@ -31,7 +33,8 @@ class ThoughtController extends Controller
     {
       return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Deleted')->latest()->get(),
-          'page' => 'deleted'
+          'page' => 'deleted',
+          'postMessage' => session('message')
         ]);
     }
 
@@ -52,7 +55,7 @@ class ThoughtController extends Controller
       $request->user()->thoughts()->create($validated);
 
       // That all done, redirect to the thoughts.index page
-      return redirect(route('thoughts.index'));
+      return redirect(route('thoughts.index'))->with('message', 'Your thought has been added to drafts. It is ready to be published.');
     }
 
     /** Update the specified resource in storage. **/
@@ -72,7 +75,13 @@ class ThoughtController extends Controller
 
       $thought->update($validated);
 
-      return redirect(route('thoughts.index'))->with('message', 'Your thought has been created successfully. Please go to the drafts page to publish it.');
+      if ($request->input('page') === 'thoughts') {
+        $redirect = 'thoughts.index';
+      } else {
+        $redirect = 'thoughts.'.$request->input('page');
+      }
+
+      return redirect(route($redirect))->with('message', "Your thought has been successfully edited.");
     }
 
     /** Update the status of the specified resource in storage. **/
@@ -100,16 +109,13 @@ class ThoughtController extends Controller
       $thought->status = request('status');
       $thought->save();
 
-      //  If the 'source' is thoughts then you need to set the redirect to thoughts.index,
-      //  otherwise you can just use the source value as the redirect text
-      if(request('source') === 'thoughts'){
+      if (request('source') === 'thoughts') {
         $redirect = 'thoughts.index';
       } else {
         $redirect = 'thoughts.'.request('source');
       }
 
-      //  TODO: Add a message to send to the view to say the action has been completed successfully
-      return redirect(route($redirect))->with('message', "Your thought's status has been changed to ".$status." successfully.");
+      return redirect(route($redirect))->with('message', "Your thought's status has been changed to ".$thought->status." successfully.");
     }
 
     /** Remove the specified resource from storage. */
