@@ -1,8 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Thought from '@/Components/Thought.vue';
-import InputError from '@/Components/InputError.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+// import InputError from '@/Components/InputError.vue';
+// import PrimaryButton from '@/Components/PrimaryButton.vue';
 import PostNotification from "@/Components/PostNotification.vue";
 import { useForm, Head } from '@inertiajs/vue3';
 
