@@ -11,6 +11,7 @@ import { ref } from 'vue';
 
 dayjs.extend(relativeTime);
 const props = defineProps(['thought', 'page']);
+
 const form = useForm({
     message: props.thought.message,
     tag_1: props.thought.tag_1,

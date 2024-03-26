@@ -11,6 +11,8 @@ defineProps(['thoughts', 'page', 'postMessage'])
 const form = useForm({
     message: '',
 });
+
+
 </script>
 
 <template>
@@ -18,7 +20,7 @@ const form = useForm({
 <AuthenticatedLayout>
     <!-- Display Post Notification if there is something in session('message')-->
     <div v-if="postMessage" class="pt-1">
-      <PostNotification :message="postMessage" />
+      <PostNotification :message="postMessage" :key="Date.now()"/>
     </div>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
 
