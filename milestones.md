@@ -1,10 +1,10 @@
 # Milestones
 
 ## List of Updates
-- *11/3* - Updated to basic functionality
-- *23/3* - Added post status and logic to move between statuses
-- *25/3* - Added tags to thoughts
 - *26/3* - Wanted to punch myself but got the notifications working
+- *25/3* - Added tags to thoughts
+- *23/3* - Added post status and logic to move between statuses
+- *11/3* - Updated to basic functionality
 
 ## Function List and Steps
 
