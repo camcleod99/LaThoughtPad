@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "serve": "php artisan serve",
+        "mail": "brew services start mailpit",
+        "mail-stop": "brew services stop mailpit"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",

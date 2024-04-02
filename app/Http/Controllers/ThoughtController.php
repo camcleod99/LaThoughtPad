@@ -14,6 +14,7 @@ class ThoughtController extends Controller
         return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Posted')->latest()->get(),
           'page' => 'thoughts',
+          'pageTitle' => 'Thoughts',
           'postMessage' => session('message')
         ]);
     }
@@ -24,6 +25,7 @@ class ThoughtController extends Controller
       return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Draft')->latest()->get(),
           'page' => 'drafts',
+          'pageTitle' => 'Drafts',
           'postMessage' => session('message')
         ]);
     }
@@ -34,6 +36,7 @@ class ThoughtController extends Controller
       return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Deleted')->latest()->get(),
           'page' => 'deleted',
+          'pageTitle' => 'Deleted',
           'postMessage' => session('message')
         ]);
     }

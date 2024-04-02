@@ -6,17 +6,16 @@ import Thought from '@/Components/Thought.vue';
 import PostNotification from "@/Components/PostNotification.vue";
 import { useForm, Head } from '@inertiajs/vue3';
 
-defineProps(['thoughts', 'page', 'postMessage'])
+defineProps(['thoughts', 'page', 'pageTitle', 'postMessage'])
 
 const form = useForm({
     message: '',
 });
 
-
 </script>
 
 <template>
-<Head :title="page + ' | Thoughtpad'" />
+<Head :title="pageTitle" />
 <AuthenticatedLayout>
     <!-- Display Post Notification if there is something in session('message')-->
     <div v-if="postMessage" class="pt-1">

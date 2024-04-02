@@ -4,16 +4,33 @@
 - *11/3* - Updated to basic functionality
 - *23/3* - Added post status and logic to move between statuses
 - *25/3* - Added tags to thoughts
+- *26/3* - Wanted to punch myself but got the notifications working
 
 ## Function List and Steps
+
+### Search Page
+A single click button will bring up a modal for putting in text to search for thoughts by content (at this point). The
+results will be listed by date. (We are NOT doing any of that potato math here, good sir. Get to france)
+
+  - [ ] Make Results Page
+  - [ ] Make Search Modal
+  - [ ] Controller Logic - Find Posts containing word
+  - [ ] Test
+
+#### Tests
+  - [ ] Results Page Can be Displayed
+  - [ ] Modal Can Appear
+  - [ ] Modal Can Accept input
+  - [ ] The Results Page Can be Displayed with returned values
+  - [ ] Above and values are correct
 
 ### Notifications
 When a posting event occurs (a user creates a thought, edits a thought, moves a thought or permanently deletes it), the
 system will pass a message telling the user the action has occurred successfully (or otherwise)
-  - [ ] Make Notification component
-  - [ ] Make Notification logic in the page (IE: When the controller returns a message, use the notification component
+  - [x] Make Notification component
+  - [x] Make Notification logic in the page (IE: When the controller returns a message, use the notification component
   to display it)
-  - [ ] Test Notification logic
+  - [x] Test Notification logic
 
 ### Tags (DONE: 25/3)
 Each thought can have three, one word tags. The tags can be added via a model and removed by clicking on the tag.
@@ -37,7 +54,7 @@ The draft page will list a page of thoughts
 ### Version 1
 - [x] *Post Drafts*: Allow users to save drafts of their posts.
 - [x] *Tagging/Categories*: Allow users to categorize or tag their posts. This can help with organization and searchability.
-- [ ] *Notifications* : Notify users when events occur (post published, deleted, etc.).
+- [x] *Notifications* : Notify users when events occur (post published, deleted, etc.).
 - [ ] *Search Functionality*: Allow users to search their own posts using keywords or tags.
 
 ### Version 2
