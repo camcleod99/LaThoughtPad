@@ -101,13 +101,6 @@ class ThoughtController extends Controller
       $thought = Thought::find(request('id'));
       $this->authorize('update', $thought);
 
-      //  If the status is deleted then set the deleted_at field to now, otherwise set it to null
-      if (request('status') == 'Deleted') {
-        $thought->deleted_at = now();
-      } else {
-        $thought->deleted_at = null;
-      }
-
       //  Set the status value in the post to the value passed in via request and then save
       $thought->status = request('status');
       $thought->save();

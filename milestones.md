@@ -12,10 +12,10 @@
 A single click button will bring up a modal for putting in text to search for thoughts by content (at this point). The
 results will be listed by date. (We are NOT doing any of that potato math here, good sir. Get to france)
 
+  - [ ] Tests
   - [ ] Make Results Page
   - [ ] Make Search Modal
   - [ ] Controller Logic - Find Posts containing word
-  - [ ] Test
 
 #### Tests
   - [ ] Results Page Can be Displayed

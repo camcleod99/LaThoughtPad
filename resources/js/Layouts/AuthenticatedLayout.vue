@@ -32,6 +32,10 @@ const showingNavigationDropdown = ref(false);
                   Dashboard
                 </NavLink>
 
+                <NavLink :href="route('search')" :active="route().current('search')">
+                  Search
+                </NavLink>
+
                 <NavLink :href="route('thoughts.index')" :active="route().current('thoughts.index')">
                   Thoughts
                 </NavLink>
@@ -42,6 +46,10 @@ const showingNavigationDropdown = ref(false);
 
                 <NavLink :href="route('thoughts.deleted')" :active="route().current('thoughts.deleted')">
                   Deleted
+                </NavLink>
+
+                <NavLink href="#" @click.prevent>
+                  SearchBar
                 </NavLink>
               </div>
             </div>
