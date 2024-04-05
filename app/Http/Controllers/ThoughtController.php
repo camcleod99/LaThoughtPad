@@ -41,6 +41,50 @@ class ThoughtController extends Controller
         ]);
     }
 
+    /** Find a set of posts from all users based on a search term */
+    public function search(request $request)
+    {
+      // Search Term is ether $request->input('searchTerm') or 'null'
+      $searchTerm = $request->input('searchTerm') ?? 'null';
+      $type = $request->input('type') ?? 'null';
+
+      $results = null;
+
+      // Case Statement to determine the type of search
+      switch ($type) {
+        case 'thoughts':
+          $results = Thought::with('user:id,name')
+            ->where('message', 'like', '%'.$searchTerm.'%')
+            ->get();
+          break;
+        case 'tags':
+          $results = Thought::with('user:id,name')
+            ->where('tag_1', 'like', '%'.$searchTerm.'%')
+            ->orWhere('tag_2', 'like', '%'.$searchTerm.'%')
+            ->orWhere('tag_3', 'like', '%'.$searchTerm.'%')
+            ->get();
+          break;
+        case 'users':
+          $results = Thought::whereHas('user', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%'.$searchTerm.'%');
+          })->get();
+          break;
+        default:
+          $results = null;
+          break;
+      }
+
+      // Pass the results to the Inertia page as props
+      $response = Inertia::render('Search/Results', [
+          'term' => $searchTerm,
+          'type' => $type,
+          'results' => $results,
+      ]);
+
+      return $response;
+    }
+
+
     /** Store a newly created resource in storage. **/
     public function store(Request $request): RedirectResponse
     {
@@ -141,6 +185,7 @@ class ThoughtController extends Controller
 
       return $tags;
     }
+
 
 
     /** DEFAULT METHODS **/

@@ -31,7 +31,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/search' , function () {
-    return Inertia::render('Search');
+    return Inertia::render('Search/Index');
 })->middleware(['auth', 'verified'])->name('search');
 
 Route::middleware('auth')->group(function () {
@@ -48,8 +48,10 @@ Route::resource('thoughts', ThoughtController::class)
 Route::get('/thoughts', [ThoughtController::class, 'index'])->middleware(['auth', 'verified'])->name('thoughts.index');
 Route::get('/drafts', [ThoughtController::class, 'drafts'])->middleware(['auth', 'verified'])->name('thoughts.drafts');
 Route::get('/deleted', [ThoughtController::class, 'deleted'])->middleware(['auth', 'verified'])->name('thoughts.deleted');
+Route::get('/search/results', [ThoughtController::class, 'results'])->middleware(['auth', 'verified'])->name('search.results');
+Route::get('thoughts.search', [ThoughtController::class, 'search'])->middleware(['auth', 'verified'])->name('thoughts.search');
 
 /* Thought Controller POST Routes */
 Route::post('thoughts.updateStatus', [ThoughtController::class, 'updateStatus'])->middleware(['auth', 'verified'])->name('thoughts.updateStatus');
-
+Route::post('thoughts.search', [ThoughtController::class, 'search'])->middleware(['auth', 'verified'])->name('search/results');
 require __DIR__.'/auth.php';

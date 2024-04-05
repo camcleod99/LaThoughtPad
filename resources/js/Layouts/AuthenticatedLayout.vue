@@ -6,6 +6,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -46,10 +47,6 @@ const showingNavigationDropdown = ref(false);
 
                 <NavLink :href="route('thoughts.deleted')" :active="route().current('thoughts.deleted')">
                   Deleted
-                </NavLink>
-
-                <NavLink href="#" @click.prevent>
-                  SearchBar
                 </NavLink>
               </div>
             </div>

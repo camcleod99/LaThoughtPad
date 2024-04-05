@@ -34,12 +34,6 @@ const form = useForm({
           </form>
         </div>
 
-<!--      TODO: List Last 5 thoughts -->
-
-<!--      TODO: List number of drafts -->
-
-<!--      TODO: List number of deleted items -->
-
     </AuthenticatedLayout>
 
 </template>
