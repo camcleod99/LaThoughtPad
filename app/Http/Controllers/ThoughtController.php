@@ -11,6 +11,7 @@ class ThoughtController extends Controller
     /** Display a listing of the resource. **/
     public function index()
     {
+        session()->forget('results');
         return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Posted')->latest()->get(),
           'page' => 'thoughts',
@@ -22,6 +23,7 @@ class ThoughtController extends Controller
     /** Display a listing of the resource that has the "Draft" status. **/
     public function drafts()
     {
+      session()->forget('results');
       return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Draft')->latest()->get(),
           'page' => 'drafts',
@@ -33,6 +35,7 @@ class ThoughtController extends Controller
     /** Display a listing of the resource that has the "Draft" status. **/
     public function deleted()
     {
+      session()->forget('results');
       return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Deleted')->latest()->get(),
           'page' => 'deleted',
@@ -40,6 +43,33 @@ class ThoughtController extends Controller
           'postMessage' => session('message')
         ]);
     }
+
+    /** Find a set of posts from all users based on a search term */
+    public function search(request $request)
+    {
+      // Search Term is ether $request->input('searchTerm') or 'null'
+      $searchTerm = $request->input('searchTerm') ?? 'null';
+
+      $results = null;
+
+      $results = Thought::with('user:id,name')
+        ->where('message', 'like', '%'.$searchTerm.'%')
+        ->get();
+
+      // Pass the results to the session if not null
+      if ($results->count() > 0) {
+        session(['results' => $results]);
+      }
+
+      // Pass the results to the Inertia page as props
+      $response = Inertia::render('Search/Results', [
+          'term' => $searchTerm,
+          'results' => $results,
+      ]);
+
+      return $response;
+    }
+
 
     /** Store a newly created resource in storage. **/
     public function store(Request $request): RedirectResponse
@@ -101,13 +131,6 @@ class ThoughtController extends Controller
       $thought = Thought::find(request('id'));
       $this->authorize('update', $thought);
 
-      //  If the status is deleted then set the deleted_at field to now, otherwise set it to null
-      if (request('status') == 'Deleted') {
-        $thought->deleted_at = now();
-      } else {
-        $thought->deleted_at = null;
-      }
-
       //  Set the status value in the post to the value passed in via request and then save
       $thought->status = request('status');
       $thought->save();
@@ -148,6 +171,7 @@ class ThoughtController extends Controller
 
       return $tags;
     }
+
 
 
     /** DEFAULT METHODS **/
