@@ -1,6 +1,7 @@
 # Milestones
 
 ## List of Updates
+- *08/4* - Added search functionality and accounted for session data
 - *26/3* - Wanted to punch myself but got the notifications working
 - *25/3* - Added tags to thoughts
 - *23/3* - Added post status and logic to move between statuses
@@ -12,17 +13,11 @@
 A single click button will bring up a modal for putting in text to search for thoughts by content (at this point). The
 results will be listed by date. (We are NOT doing any of that potato math here, good sir. Get to france)
 
-  - [ ] Tests
-  - [ ] Make Results Page
-  - [ ] Make Search Modal
-  - [ ] Controller Logic - Find Posts containing word
-
-#### Tests
-  - [ ] Results Page Can be Displayed
-  - [ ] Modal Can Appear
-  - [ ] Modal Can Accept input
-  - [ ] The Results Page Can be Displayed with returned values
-  - [ ] Above and values are correct
+  - [x] Make Results Page
+  - [x] Controller Logic - Find Posts containing word
+  - [x] View Logic - Display Posts
+  - [x] Modal Logic - Display Tags
+  - [x] Modal Logic - Display Users
 
 ### Notifications
 When a posting event occurs (a user creates a thought, edits a thought, moves a thought or permanently deletes it), the
@@ -55,7 +50,7 @@ The draft page will list a page of thoughts
 - [x] *Post Drafts*: Allow users to save drafts of their posts.
 - [x] *Tagging/Categories*: Allow users to categorize or tag their posts. This can help with organization and searchability.
 - [x] *Notifications* : Notify users when events occur (post published, deleted, etc.).
-- [ ] *Search Functionality*: Allow users to search their own posts using keywords or tags.
+- [x] *Search Functionality*: Allow users to search their own posts using keywords or tags.
 
 ### Version 2
 - [ ] *Rich Text Editing*: Allow users to format their posts with options like bold, italic, underline, lists, etc.

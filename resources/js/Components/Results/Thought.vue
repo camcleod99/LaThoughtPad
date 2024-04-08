@@ -27,20 +27,23 @@ const form = useForm({
     <div class="flex-1">
 
       <div class="flex justify-between items-center">
+
         <div>
-          <span class="text-gray-800">{{ thought && thought.user ? thought.user.name : '' }}</span>
+          <span class="text-gray-800">{{ thought.user.name }}</span>
           <small class="ml-2 text-sm text-gray-600">{{ dayjs(thought.created_at).fromNow() }}</small>
           <small v-if="thought.created_at !== thought.updated_at" class="text-sm text-gray-600"> &middot;
             edited</small>
         </div>
 
+      </div>
+
+      <div>
         <p class="mt-4 text-lg text-gray-900">{{ thought.message }}</p>
         <div class="mt-3 space-x-2 text-right">
-          <span class="font-bold font-serif" v-if="thought.tag_1 !== null && thought.tag_1 !== ''">{{ thought.tag_1 }}</span>
-          <span class="font-bold font-serif" v-if="thought.tag_2 !== null && thought.tag_2 !== ''"> {{ thought.tag_2 }} </span>
-          <span class="font-bold font-serif" v-if="thought.tag_3 !== null && thought.tag_3 !== ''"> {{ thought.tag_3 }} </span>
+          <span class="font-bold font-serif" v-if="thought.tag_1 !== null && thought.tag_1 !== ''">#{{ thought.tag_1 }}</span>
+          <span class="font-bold font-serif" v-if="thought.tag_2 !== null && thought.tag_2 !== ''"> #{{ thought.tag_2 }} </span>
+          <span class="font-bold font-serif" v-if="thought.tag_3 !== null && thought.tag_3 !== ''"> #{{ thought.tag_3 }} </span>
         </div>
-
       </div>
     </div>
   </div>

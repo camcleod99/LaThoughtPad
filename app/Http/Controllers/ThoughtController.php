@@ -11,6 +11,7 @@ class ThoughtController extends Controller
     /** Display a listing of the resource. **/
     public function index()
     {
+        session()->forget('results');
         return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Posted')->latest()->get(),
           'page' => 'thoughts',
@@ -22,6 +23,7 @@ class ThoughtController extends Controller
     /** Display a listing of the resource that has the "Draft" status. **/
     public function drafts()
     {
+      session()->forget('results');
       return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Draft')->latest()->get(),
           'page' => 'drafts',
@@ -33,6 +35,7 @@ class ThoughtController extends Controller
     /** Display a listing of the resource that has the "Draft" status. **/
     public function deleted()
     {
+      session()->forget('results');
       return Inertia::render('Thoughts/Index', [
           'thoughts' => Thought::with('user:id,name')->where('status','Deleted')->latest()->get(),
           'page' => 'deleted',
@@ -46,38 +49,21 @@ class ThoughtController extends Controller
     {
       // Search Term is ether $request->input('searchTerm') or 'null'
       $searchTerm = $request->input('searchTerm') ?? 'null';
-      $type = $request->input('type') ?? 'null';
 
       $results = null;
 
-      // Case Statement to determine the type of search
-      switch ($type) {
-        case 'thoughts':
-          $results = Thought::with('user:id,name')
-            ->where('message', 'like', '%'.$searchTerm.'%')
-            ->get();
-          break;
-        case 'tags':
-          $results = Thought::with('user:id,name')
-            ->where('tag_1', 'like', '%'.$searchTerm.'%')
-            ->orWhere('tag_2', 'like', '%'.$searchTerm.'%')
-            ->orWhere('tag_3', 'like', '%'.$searchTerm.'%')
-            ->get();
-          break;
-        case 'users':
-          $results = Thought::whereHas('user', function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%'.$searchTerm.'%');
-          })->get();
-          break;
-        default:
-          $results = null;
-          break;
+      $results = Thought::with('user:id,name')
+        ->where('message', 'like', '%'.$searchTerm.'%')
+        ->get();
+
+      // Pass the results to the session if not null
+      if ($results->count() > 0) {
+        session(['results' => $results]);
       }
 
       // Pass the results to the Inertia page as props
       $response = Inertia::render('Search/Results', [
           'term' => $searchTerm,
-          'type' => $type,
           'results' => $results,
       ]);
 
