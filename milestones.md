@@ -1,4 +1,4 @@
-# Milestones
+# Milestones - Version 1
 
 ## List of Updates
 - *08/4* - Added search functionality and accounted for session data
